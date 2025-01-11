@@ -1,27 +1,40 @@
 #include <stdio.h>
 #include <string.h>
 
-int check_flag(const char *flag) {
-    if (strlen(flag) != 18) return 0;
+int hehe(const char *input);
 
-    if (flag[0] == 'C' && flag[1] == 'K' && flag[2] == 'C' && flag[3] == 'T' && flag[4] == 'F' && flag[5] == '{' &&
-        flag[6] == 'R' && flag[7] == '3' && flag[8] == 'v' && flag[9] == '3' && flag[10] == '_' &&
-        flag[11] == '1' && flag[12] == '5' && flag[13] == '_' && flag[14] == 'F' &&
-        flag[15] == 'u' && flag[16] == 'n' && flag[17] == '}') {
-        return 1;
+int ohh(const char *input) {
+    if (strlen(input) != 18) return 0;
+
+    // Splitting checks to add complexity
+    if (input[0] != 'C' || input[1] != 'K' || input[2] != 'C') return 0;
+    if (input[3] != 'T' || input[4] != 'F' || input[5] != '{') return 0;
+    if (input[6] != 'R' || input[7] != '3' || input[8] != 'v') return 0;
+    if (input[9] != '3' || input[10] != '_') return 0;
+
+    if (input[11] != '1' || input[12] != '5' || input[13] != '_') return 0;
+    if (input[14] != 'F' || input[15] != 'u' || input[16] != 'n' || input[17] != '}') return 0;
+
+    return hehe(input);
+}
+
+// Additional check with a disguised name
+int hehe(const char *input) {
+    unsigned int hash = 0;
+    for (int i = 0; i < strlen(input); i++) {
+        hash = (hash * 31 + input[i]) ^ 0x45; // Hash-like calculation
     }
-// CKCTF{R3v3_15_Fun}
-
-    return 0;
+    // Simple hash comparison to confuse attackers
+    return hash == 0x1F4ACB3; // Pre-calculated value for CKCTF{R3v3_15_Fun}
 }
 
 int main() {
-    char input[64];
+    char user_input[64];
     printf("Enter the flag: ");
-    scanf("%63s", input);
+    scanf("%63s", user_input);
 
-    if (check_flag(input)) {
-        printf("Correct! The flag is: %s\n", input);
+    if (ohh(user_input)) {
+        printf("Correct! The flag is: %s\n", user_input);
     } else {
         printf("Wrong flag!\n");
     }

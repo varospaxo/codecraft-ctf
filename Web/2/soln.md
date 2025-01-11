@@ -1,0 +1,2 @@
+1. Find/Bruteforce password for user, intercept the request, add parameter admin=true. Flag is in source comment of admin dashboard.
+2. Find/Bruteforce password for admin. Flag is in source comment of admin dashboard.
