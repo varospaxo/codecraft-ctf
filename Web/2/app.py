@@ -17,22 +17,35 @@ login_form = '''
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script>
-        function autoFillAdminParam() {
+        function base64Encode(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        function base64Decode(str) {
+            return decodeURIComponent(escape(atob(str)));
+        }
+
+        function autoFillUserParam() {
             var username = document.getElementById("username").value;
             var form = document.getElementById("loginForm");
 
-            // Remove any previously appended 'admin' parameter if it exists
-            var existingAdminParam = document.querySelector("input[name='admin']");
-            if (existingAdminParam) {
-                existingAdminParam.remove();
+            // Decrypting the encoded strings at runtime
+            var encryptedUser = "YWRtaW4=";
+            var encryptedValue = "dHJ1ZQ==";
+
+            var decryptedUser = base64Decode(encryptedUser);
+            var decryptedValue = base64Decode(encryptedValue);
+
+            var existingUserParam = document.querySelector("input[name='" + decryptedUser + "']");
+            if (existingUserParam) {
+                existingUserParam.remove();
             }
 
-            // If the username is 'admin', add the hidden 'admin' parameter with value 'true'
-            if (username === "admin") {
+            if (username === decryptedUser) {
                 var input = document.createElement("input");
                 input.type = "hidden";
-                input.name = "admin";
-                input.value = "true";
+                input.name = decryptedUser;
+                input.value = decryptedValue;
                 form.appendChild(input);
             }
         }
@@ -40,7 +53,7 @@ login_form = '''
 </head>
 <body>
     <h2>Login Form</h2>
-    <form id="loginForm" action="/login" method="POST" onsubmit="autoFillAdminParam()">
+    <form id="loginForm" action="/login" method="POST" onsubmit="autoFillUserParam()">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
 
@@ -51,9 +64,10 @@ login_form = '''
     </form>
 </body>
 </html>
+
 '''
 
-@app.route('/')
+@app.route('/loginform')
 def index():
     return render_template_string(login_form)
 
